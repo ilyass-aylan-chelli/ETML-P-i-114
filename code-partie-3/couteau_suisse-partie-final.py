@@ -271,7 +271,36 @@ MARQUEUR_SEP_MOT = "\u2060"      # WORD JOINER
 
 TOUS_LES_MARQUEURS = MARQUEUR_POINT + MARQUEUR_TIRET + MARQUEUR_SEP_LETTRE + MARQUEUR_SEP_MOT
 
-NOM_FICHIER = "stegano.txt"
+def dossier_telechargements():
+    # Dossier Téléchargements de l'utilisateur (C:\Users\ton_nom\Downloads)
+    return os.path.join(os.path.expanduser("~"), "Downloads")
+
+
+def chemin_stegano(numero):
+    # Construit le chemin complet : ...\Downloads\stegano1.txt, stegano2.txt, etc.
+    return os.path.join(dossier_telechargements(), "stegano" + str(numero) + ".txt")
+
+
+def nouveau_fichier():
+    # Cherche le premier numéro libre
+    numero = 1
+
+    while os.path.exists(chemin_stegano(numero)):
+        numero = numero + 1
+
+    return chemin_stegano(numero)
+
+
+def dernier_fichier():
+    # Retourne le dernier fichier stegano existant, ou "" s'il n'y en a aucun
+    numero = 1
+    dernier = ""
+
+    while os.path.exists(chemin_stegano(numero)):
+        dernier = chemin_stegano(numero)
+        numero = numero + 1
+
+    return dernier
 
 
 def texte_en_morse(texte):
@@ -443,12 +472,13 @@ def menu_steganographie():
                 print("Erreur : le texte porteur est trop court pour cacher ce message.")
                 print("Il faut au moins", len(morse_en_marqueurs(texte_en_morse(secret))), "caractères.")
             else:
-                # On écrit en UTF-8 pour garder les caractères invisibles
-                fichier = open(NOM_FICHIER, "w", encoding="utf-8,")
+                chemin = nouveau_fichier()
+
+                fichier = open(chemin, "w", encoding="utf-8")
                 fichier.write(resultat)
                 fichier.close()
 
-                print("Le texte avec stéganographie a été sauvegardé dans le fichier", NOM_FICHIER)
+                print("Le texte avec stéganographie a été sauvegardé dans le fichier", chemin)
                 print("Aperçu :", resultat)
 
         # Décoder
