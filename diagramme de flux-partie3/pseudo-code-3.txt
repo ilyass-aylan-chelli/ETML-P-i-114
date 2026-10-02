@@ -1,0 +1,147 @@
+DEBUT
+
+    AFFICHER "===== COUTEAU SUISSE ====="
+    AFFICHER "1. Convertisseur Morse"
+    AFFICHER "2. Convertisseur de bases"
+    AFFICHER "3. Stéganographie"
+    AFFICHER "4. Quitter"
+
+    DEMANDER le choix
+
+    SI choix = 3 ALORS
+
+        AFFICHER "1. Encoder (cacher un message)"
+        AFFICHER "2. Décoder (extraire un message caché)"
+        AFFICHER "3. Retour"
+
+        DEMANDER le choix
+
+
+        SI choix = 1 ALORS
+
+            DEMANDER le texte porteur
+            DEMANDER le message secret
+            mettre le secret en majuscules
+
+            SI le texte porteur est vide ALORS
+                AFFICHER "Erreur : texte porteur vide"
+
+            SINON SI le secret contient autre chose que A-Z et espaces
+                     OU ne contient aucune lettre ALORS
+                AFFICHER "Erreur : message secret non valide"
+
+            SINON
+
+                // --- Fonction Encode ---
+
+                code_morse = ""
+                POUR chaque mot du secret FAIRE
+                    POUR chaque lettre du mot FAIRE
+                        ajouter le Morse de la lettre au code_morse
+                        (lettres séparées par " ", mots séparés par " / ")
+                    FIN POUR
+                FIN POUR
+
+                marqueurs = ""
+                POUR chaque symbole du code_morse FAIRE
+
+                    SI symbole = "." ALORS
+                        ajouter le caractère invisible POINT à marqueurs
+                    SINON SI symbole = "-" ALORS
+                        ajouter le caractère invisible TIRET à marqueurs
+                    SINON SI symbole = " " ALORS
+                        ajouter le caractère invisible SEPARATEUR DE LETTRE à marqueurs
+                    SINON SI symbole = "/" ALORS
+                        ajouter le caractère invisible SEPARATEUR DE MOT à marqueurs
+                    FIN SI
+
+                FIN POUR
+
+                SI longueur du texte porteur < nombre de marqueurs ALORS
+                    AFFICHER "Erreur : texte porteur trop court"
+
+                SINON
+
+                    résultat = ""
+
+                    POUR chaque caractère du texte porteur (position i) FAIRE
+                        ajouter le caractère au résultat
+
+                        SI il reste un marqueur à cacher (i < nombre de marqueurs) ALORS
+                            ajouter le marqueur numéro i au résultat
+                        FIN SI
+                    FIN POUR
+
+                    ÉCRIRE le résultat dans le fichier stegano.txt (UTF-8)
+                    AFFICHER "Texte sauvegardé dans stegano.txt"
+
+                FIN SI
+
+            FIN SI
+
+
+        SINON SI choix = 2 ALORS
+
+            DEMANDER le nom du fichier
+            SI le fichier n'existe pas ALORS
+                AFFICHER "Erreur : fichier introuvable"
+            SINON
+
+                LIRE le texte du fichier (UTF-8)
+
+                // --- Fonction Decode ---
+
+                marqueurs = ""
+                POUR chaque caractère du texte FAIRE
+                    SI le caractère est un des 4 caractères invisibles ALORS
+                        ajouter le caractère à marqueurs
+                    FIN SI
+                FIN POUR
+
+                SI marqueurs est vide ALORS
+                    AFFICHER "Aucun message caché trouvé"
+                SINON
+
+                    code_morse = ""
+                    POUR chaque marqueur FAIRE
+                        SI POINT ALORS ajouter "." au code_morse
+                        SINON SI TIRET ALORS ajouter "-" au code_morse
+                        SINON SI SEPARATEUR DE LETTRE ALORS ajouter " " au code_morse
+                        SINON SI SEPARATEUR DE MOT ALORS ajouter " / " au code_morse
+                        FIN SI
+                    FIN POUR
+
+                    message = ""
+                    POUR chaque mot du code_morse (séparés par " / ") FAIRE
+                        SI ce n'est pas le premier mot ALORS
+                            ajouter " " au message
+                        FIN SI
+                        POUR chaque code de lettre du mot (séparés par " ") FAIRE
+                            SI le code existe dans la table Morse inversée ALORS
+                                ajouter la lettre correspondante au message
+                            SINON
+                                ajouter "?" au message
+                            FIN SI
+                        FIN POUR
+                    FIN POUR
+
+                    AFFICHER le message
+
+                FIN SI
+
+            FIN SI
+
+
+        SINON SI choix = 3 ALORS
+
+            RETOUR au menu principal
+
+        SINON
+
+            AFFICHER "Choix invalide"
+
+        FIN SI
+
+    FIN SI
+
+FIN
