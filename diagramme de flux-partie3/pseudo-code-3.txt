@@ -72,8 +72,17 @@ DEBUT
                         FIN SI
                     FIN POUR
 
-                    ÉCRIRE le résultat dans le fichier stegano.txt (UTF-8)
-                    AFFICHER "Texte sauvegardé dans stegano.txt"
+                    // --- Fonction Nouveau fichier ---
+
+                    numero = 1
+                    TANT QUE le fichier stegano<numero>.txt existe dans le dossier Téléchargements FAIRE
+                        numero = numero + 1
+                    FIN TANT QUE
+
+                    chemin = dossier Téléchargements + "stegano" + numero + ".txt"
+
+                    ÉCRIRE le résultat dans chemin (UTF-8)
+                    AFFICHER "Texte sauvegardé dans " + chemin
 
                 FIN SI
 
@@ -82,12 +91,28 @@ DEBUT
 
         SINON SI choix = 2 ALORS
 
-            DEMANDER le nom du fichier
-            SI le fichier n'existe pas ALORS
+            DEMANDER le nom du fichier (Entrée = dernier fichier créé)
+
+            SI le nom est vide ALORS
+
+                // --- Fonction Dernier fichier ---
+
+                numero = 1
+                nom = ""
+                TANT QUE le fichier stegano<numero>.txt existe dans le dossier Téléchargements FAIRE
+                    nom = chemin du fichier stegano<numero>.txt
+                    numero = numero + 1
+                FIN TANT QUE
+
+            SINON SI le fichier nom n'existe pas ALORS
+                nom = dossier Téléchargements + nom
+            FIN SI
+
+            SI nom est vide OU le fichier nom n'existe pas ALORS
                 AFFICHER "Erreur : fichier introuvable"
             SINON
 
-                LIRE le texte du fichier (UTF-8)
+                LIRE le texte du fichier nom (UTF-8)
 
                 // --- Fonction Decode ---
 
