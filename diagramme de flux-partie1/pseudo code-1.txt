@@ -1,0 +1,30 @@
+FONCTION ConvertirTexteEnMorse(texte)
+    créer une variable résultat vide
+
+    POUR chaque caractère dans texte
+        SI le caractère est un espace ALORS
+            ajouter "/" au résultat
+        SINON SI le caractère existe dans la table Morse ALORS
+            trouver son code Morse
+            ajouter le code Morse au résultat
+        SINON
+            signaler ou ignorer le caractère
+        FIN SI
+    FIN POUR
+
+    retourner résultat
+FIN FONCTION
+
+
+
+
+DÉBUT
+    afficher le titre du programme
+
+    demander à l'utilisateur d'entrer un texte
+
+    convertir le texte en Morse
+
+    afficher le résultat
+
+FIN

@@ -1,0 +1,173 @@
+DEBUT
+
+    AFFICHER "===== COUTEAU SUISSE ====="
+    AFFICHER "1. Convertisseur Morse"
+    AFFICHER "2. Convertisseur de bases"
+    AFFICHER "3. Quitter"
+
+    DEMANDER le choix
+
+    SI choix = 1 ALORS
+
+        DEMANDER un texte
+        résultat = ""
+
+        POUR chaque lettre du texte FAIRE
+
+            SI la lettre est un espace ALORS
+                ajouter "/ " au résultat
+
+            SINON SI la lettre existe dans le tableau Morse ALORS
+                ajouter le code Morse au résultat
+
+            SINON
+                AFFICHER "Caractère ignoré"
+
+            FIN SI
+
+        FIN POUR
+
+        AFFICHER le résultat
+
+
+    SINON SI choix = 2 ALORS
+
+        AFFICHER "1. Décimal -> Binaire"
+        AFFICHER "2. Binaire -> Décimal"
+        AFFICHER "3. Décimal -> Octal"
+        AFFICHER "4. Octal -> Décimal"
+        AFFICHER "5. Binaire -> Octal"
+        AFFICHER "6. Octal -> Binaire"
+        AFFICHER "7. Retour"
+
+        DEMANDER le choix
+
+
+        SI choix = 1 ALORS
+
+            DEMANDER un nombre décimal
+            résultat = ""
+
+            TANT QUE nombre > 0 FAIRE
+                reste = nombre modulo 2
+                ajouter reste au début du résultat
+                nombre = nombre divisé par 2
+            FIN TANT QUE
+
+            AFFICHER résultat
+
+
+        SINON SI choix = 2 ALORS
+
+            DEMANDER un nombre binaire
+
+            vérifier que le nombre contient seulement 0 et 1
+
+            SI le nombre est valide ALORS
+
+                résultat = 0
+                puissance = 0
+
+                POUR chaque chiffre en partant de la droite FAIRE
+                    résultat = résultat + chiffre × 2 puissance
+                    puissance = puissance + 1
+                FIN POUR
+
+                AFFICHER résultat
+
+            SINON
+                AFFICHER "Erreur : ce n'est pas un nombre binaire"
+            FIN SI
+
+
+        SINON SI choix = 3 ALORS
+
+            DEMANDER un nombre décimal
+            résultat = ""
+
+            TANT QUE nombre > 0 FAIRE
+                reste = nombre modulo 8
+                ajouter reste au début du résultat
+                nombre = nombre divisé par 8
+            FIN TANT QUE
+
+            AFFICHER résultat
+
+
+        SINON SI choix = 4 ALORS
+
+            DEMANDER un nombre octal
+
+            vérifier que le nombre contient seulement des chiffres de 0 à 7
+
+            SI le nombre est valide ALORS
+
+                résultat = 0
+                puissance = 0
+
+                POUR chaque chiffre en partant de la droite FAIRE
+                    résultat = résultat + chiffre × 8 puissance
+                    puissance = puissance + 1
+                FIN POUR
+
+                AFFICHER résultat
+
+            SINON
+                AFFICHER "Erreur : ce n'est pas un nombre octal"
+            FIN SI
+
+
+        SINON SI choix = 5 ALORS
+
+            DEMANDER un nombre binaire
+
+            vérifier que le nombre est valide
+
+            SI le nombre est valide ALORS
+                convertir le binaire en décimal
+                convertir le décimal en octal
+                AFFICHER le résultat
+            SINON
+                AFFICHER "Erreur"
+            FIN SI
+
+
+        SINON SI choix = 6 ALORS
+
+            DEMANDER un nombre octal
+
+            vérifier que le nombre est valide
+
+            SI le nombre est valide ALORS
+                convertir l'octal en décimal
+                convertir le décimal en binaire
+                AFFICHER le résultat
+            SINON
+                AFFICHER "Erreur"
+            FIN SI
+
+
+        SINON SI choix = 7 ALORS
+
+            RETOUR au menu principal
+
+        SINON
+
+            AFFICHER "Choix invalide"
+
+        FIN SI
+
+
+    SINON SI choix = 3 ALORS
+
+        DEMANDER "Êtes-vous sûr ?"
+        QUITTER le programme
+
+
+    SINON
+
+        AFFICHER "Choix invalide"
+
+    FIN SI
+
+FIN
